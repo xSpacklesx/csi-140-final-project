@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "header.h"
 
+//add stopChack to after every cin
+
 void callLogIn(string loginFile) {
 	if (logIn(loginFile) == true) {
 		cout << "Welcome to the Bank of Spack Teller." << endl << endl;
@@ -107,39 +109,64 @@ void menuSwitch() {
 
 void addNewAccount() {
 	cout << "Add a new account";
-
+	// rand and srand to make numbers that you throw together into a random new account num
+	//prompt for social security number and format it to file in the right format
+	//prompt for name and write to file
+	//prompt for adress and write to file
+	//prompt for phone number and format/write to file
+	//make new account .dat file and then prompt for a balance
 }
 
 void deleteAccount() {
 	cout << "Delete an account";
+	//prompt input for either name or account number and if there is a match in the file remove the appropriate lines from the file
+	//we're going to make sure the data on the file is lined up a certain way for easy manipulation
 
 }
 
 void updateAccount() {
 	cout << "Update account";
+	//prompt for account number
+	//only needs to update name any other update is bonus points
 
 }
 
 void searchAccount() {
 	cout << "Search account";
+	//add ability to search for an account by number and display info 
+	//any extra search ability is a bonus
 
 }
 
 void deposit() {
 	cout << "Deposit";
+	//prompt for account number and make sure we have it
+	//take in the value from that accounts file
+	//add the deposit ammount to that number
+	//change the value in the file to reflect the addition
+	//close file
 
 }
 
 void withdraw() {
 	cout << "Withdraw";
+	//prompt for account number and make sure we have it
+	//take in the value from that accounts file
+	//subtract the ammount to that number
+	//change the value in the file to reflect the change
+	//close file
 
 }
 
 void checkBalance() {
 	cout << "check balance";
+	//prompt for account number
+	//check that we have that account on file
+	//oppen that account file
 
 }
 
 void quit() {
 	cout << "quit";
+	//exit program
 }
