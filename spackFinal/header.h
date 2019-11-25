@@ -20,6 +20,7 @@ void searchAccount();
 void deposit();
 void withdraw();
 void checkBalance();
+void stopCheck(string input);
 void quit();
 
 
