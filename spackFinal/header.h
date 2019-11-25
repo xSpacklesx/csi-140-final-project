@@ -5,6 +5,9 @@
 #include <string>
 #include <iomanip>
 #include <fstream>
+#include <ctime>
+#include <cstdlib>
+#include <sstream>
 
 using namespace std;
 
@@ -20,7 +23,7 @@ void searchAccount();
 void deposit();
 void withdraw();
 void checkBalance();
-void stopCheck(string input);
+//void stopCheck(string input);
 void quit();
 
 

@@ -3,6 +3,8 @@
 
 //add stopChack to after every cin
 
+const string OUTPUT_FILE = "accounts.dat";
+
 void callLogIn(string loginFile) {
 	if (logIn(loginFile) == true) {
 		cout << "Welcome to the Bank of Spack Teller." << endl << endl;
@@ -108,13 +110,50 @@ void menuSwitch() {
 }
 
 void addNewAccount() {
-	cout << "Add a new account";
+	cout << "Add a new account" << endl;
+
+	ofstream fout;	
+	fout.open(OUTPUT_FILE);
+	if (fout.fail())
+	{
+		cout << "This file could not be opened sorry" << endl;
+		return;
+	}
+
+	srand(time(NULL));
+	stringstream str;
+	str << rand() % 9;
+	str << rand() % 9;
+	str << rand() % 9;
+	str << rand() % 9;
+	str << rand() % 9;
+	string accountNumString = str.str();
+	int accountNumInt = stoi(str.str());
+	cout << "Account number: " << accountNumString << endl;
+	string newAccountName;
+	string newAccountSSN;
+	string newAccountAddress;
+	string newAccountPhone;
+	cout << "New account name:";
+	getline(cin, newAccountName);
+	cout << "New account SSN:";
+	cin >> newAccountSSN;
+	cout << "New account address:";
+	getline(cin, newAccountAddress);
+	cout << "New account phone number:";
+	cin >> newAccountPhone;
+	fout << accountNumString << endl << newAccountSSN<< endl << newAccountName << endl << newAccountAddress << endl << newAccountPhone;
+
+	fout.close();
+
+
 	// rand and srand to make numbers that you throw together into a random new account num
 	//prompt for social security number and format it to file in the right format
 	//prompt for name and write to file
 	//prompt for adress and write to file
 	//prompt for phone number and format/write to file
 	//make new account .dat file and then prompt for a balance
+	displayMenu();
 }
 
 void deleteAccount() {
