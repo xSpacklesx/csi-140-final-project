@@ -8,6 +8,7 @@
 #include <ctime>
 #include <cstdlib>
 #include <sstream>
+#include <cstdio>
 
 using namespace std;
 
@@ -17,13 +18,14 @@ void displayMenu();
 void menuSwitch();
 
 void addNewAccount();
+void createAccountFile(string fileName, float accountBalance);
 void deleteAccount();
 void updateAccount();
 void searchAccount();
 void deposit();
 void withdraw();
 void checkBalance();
-//void stopCheck(string input);
+void stopCheck(string input);
 void quit();
 
 

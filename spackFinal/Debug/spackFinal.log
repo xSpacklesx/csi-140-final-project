@@ -1,3 +1,0 @@
-﻿  functions.cpp
-c:\users\hunte\desktop\col-cpp-sem1\spackfinal\spackfinal\functions.cpp(123): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-  spackFinal.vcxproj -> C:\Users\hunte\Desktop\col-cpp-sem1\spackFinal\Debug\spackFinal.exe

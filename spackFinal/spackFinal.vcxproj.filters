@@ -15,17 +15,11 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="pch.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="header.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="pch.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="functions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -34,7 +28,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\..\Downloads\tellers.dat">
+    <None Include="accounts.dat">
       <Filter>Source Files</Filter>
     </None>
   </ItemGroup>
