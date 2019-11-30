@@ -1,6 +1,21 @@
 #include "header.h"
+/*Author: Hunter Spack
+Class: CSI-140-02
+Assignment: Final Project
+Due Date: 12/1/19 11:59 pm
+Description: This is a bank teller aplication
+Certification of Authenticity:
+I certify that this is entirely my own work, except where I have given
+fully-documented references to the work of others. I understand the
+definition and consequences of plagiarism and acknowledge that the assessor
+of this assignment may, for the purpose of assessing this assignment:
+- Reproduce this assignment and provide a copy to another member of
+academic staff; and/or
+- Communicate a copy of this assignment to a plagiarism checking
+service (which may then retain a copy of this assignment on its
+database for the purpose of future plagiarism checking)*/
 
-//add stopChack to after every cin
+//add stopCheck to after every cin
 
 const string OUTPUT_FILE = "accounts.dat";
 const int MAX_ACCOUNT_NUM = 10;
@@ -17,8 +32,6 @@ void callLogIn(string loginFile) {
 	}
 	return;
 }
-
-
 
 bool logIn(const string tellerFile) {
 	const int SIZE = 4;
@@ -43,8 +56,10 @@ bool logIn(const string tellerFile) {
 	string passwordInput = "";
 	cout << "Enter username" << endl;
 	cin >> usernameInput;
+	stopCheck(usernameInput);
 	cout << endl << "Enter password" << endl;
 	cin >> passwordInput;
+	stopCheck(passwordInput);
 	cout << endl;
 	for (int i = 0; i < SIZE; i++)
 	{
@@ -76,6 +91,9 @@ void displayMenu() {
 void menuSwitch() {
 	int userInput = 0;
 	cin >> userInput;
+	stringstream check;
+	check >> userInput;
+	stopCheck(check.str());
 	if (userInput >= 1 && userInput <= 8)
 	{
 		switch (userInput)
@@ -99,6 +117,7 @@ void menuSwitch() {
 			break;
 
 		default: cout << "enter a valid menu option" << endl;
+			displayMenu();
 
 			break;
 		}
@@ -122,6 +141,7 @@ void addNewAccount() {
 	str << rand() % 9;
 	str << rand() % 9;
 	string accountNumString = str.str();
+	accountNumCheck(accountNumString);
 	cout << "Account number: " << accountNumString << endl;
 	string newAccountName;
 	string newAccountSSN;
@@ -132,11 +152,13 @@ void addNewAccount() {
 	getline(cin, newAccountName);
 	cout << "New account SSN:";
 	cin >> newAccountSSN;
+	stopCheck(newAccountSSN);
 	cin.ignore();
 	cout << "New account address:";
 	getline(cin, newAccountAddress);
 	cout << "New account phone number:";
 	cin >> newAccountPhone;
+	stopCheck(newAccountPhone);
 	fout << accountNumString
 		<< endl << newAccountSSN[0] << newAccountSSN[1] << newAccountSSN[2]  << "-" << newAccountSSN[3] << newAccountSSN[4] << "-"
 		<< newAccountSSN[5] << newAccountSSN[6] << newAccountSSN[7]  << newAccountSSN[8]
@@ -148,8 +170,42 @@ void addNewAccount() {
 	float accountBalance = 0.0;
 	cout << "New account balance:";
 	cin >> accountBalance;
+	stringstream check;
+	check >> accountBalance;
+	stopCheck(check.str());
 	createAccountFile(accountNumString, accountBalance);
 	displayMenu();
+}
+
+void accountNumCheck(string accountNumber) {
+	ifstream fin;
+	fin.open(OUTPUT_FILE);
+	string transfer;
+	string junk;
+	string accountNumbers[MAX_ACCOUNT_NUM];
+	int x = 0;
+	cout << "Enter account number:";
+	string userInput = "";
+	cin >> userInput;
+	stopCheck(userInput);
+	while (!fin.eof())
+	{
+		getline(fin, accountNumbers[x]);
+		getline(fin, junk);
+		getline(fin, junk);
+		getline(fin, junk);
+		getline(fin, junk);
+		x++;
+
+	}
+	fin.close();
+	for (int i = 0; i < x; i++) 
+	{
+		if (accountNumber == accountNumbers[i]) 
+		{
+			addNewAccount();
+		}
+	}
 }
 
 void createAccountFile(string fileName, float accountBalance) {
@@ -162,7 +218,6 @@ void createAccountFile(string fileName, float accountBalance) {
 
 void deleteAccount() {
 	cout << "Delete an account" << endl;
-
 	ifstream fin;
 	fin.open(OUTPUT_FILE);
 	string transfer;
@@ -172,6 +227,7 @@ void deleteAccount() {
 	cout << "Enter account number:";
 	string userInput = "";
 	cin >> userInput;
+	stopCheck(userInput);
 	while (!fin.eof())
 	{
 		getline(fin, accountNumbers[x]);
@@ -215,8 +271,20 @@ void deleteAccount() {
 	 if (remove("accounts.dat") != 0) {
 		 cout << "removal failed" << endl;
 	 }
-	 rename("temp.dat", "accounts.dat");
+	 else
+	 {
 
+		 rename("temp.dat", "accounts.dat");
+	 }
+	 userInput.append(".dat");
+	 if (remove((userInput).c_str()) == 0) {
+		 cout << "Account balance deleted" << endl;
+	 }
+	 else
+	 {
+		 cout << "error deleting" << endl;
+	 }
+	 displayMenu();
 }
 
 void updateAccount() {
@@ -242,6 +310,7 @@ void updateAccount() {
 	fin.close();
 	cout << "Please enter the number of the account you want to edit:";
 	cin >> userInput;
+	stopCheck(userInput);
 	ofstream fout;
 	fin.open(OUTPUT_FILE);
 	fout.open("temp.dat");
@@ -280,18 +349,7 @@ void updateAccount() {
 }
 
 void searchAccount() {
-	cout << "Search account";
-	//add ability to search for an account by number and display info 
-	//any extra search ability is a bonus
-
-}
-
-void deposit() {
-	cout << "Deposit" << endl;
-	//cycle through pull out account numbers
-	//recive account number input
-	//compare input and array
-
+	cout << "Search account" << endl;
 	ifstream fin;
 	fin.open(OUTPUT_FILE);
 	string accountNumbers[MAX_ACCOUNT_NUM];
@@ -307,12 +365,55 @@ void deposit() {
 		getline(fin, junk);
 		//cout << accountNumbers[i] << endl;
 		i++;
+	}
+	fin.close();
+	cout << "Enter the account number that you want to check:";
+	cin >> userInput;
+	stopCheck(userInput);
+	string userInfo;
+	for (int j = 0; j < i; j++)
+	{
+		if (userInput == accountNumbers[j])
+		{
+			cout << "Account found" << endl;
+			fin.open(OUTPUT_FILE);
+			for (int k = 0; k < (j * 5) ; k++)
+			{
+				getline(fin, junk);
+			}
+			for (int h = 0; h < 5; h++)
+			{
+				getline(fin, userInfo);
+				cout << userInfo << endl;
+			}
+			fin.close();
+		}
+	}
+	displayMenu();
+}
 
+void deposit() {
+	cout << "Deposit" << endl;
+	ifstream fin;
+	fin.open(OUTPUT_FILE);
+	string accountNumbers[MAX_ACCOUNT_NUM];
+	string junk;
+	int i = 0;
+	string userInput;
+	while (!fin.eof())
+	{
+		getline(fin, accountNumbers[i]);
+		getline(fin, junk);
+		getline(fin, junk);
+		getline(fin, junk);
+		getline(fin, junk);
+		//cout << accountNumbers[i] << endl;
+		i++;
 	}
 	fin.close();
 	cout << "Enter the account number that you want to deposit to:";
 	cin >> userInput;
-
+	stopCheck(userInput);
 	for (int j = 0; j < i; j++) 
 	{
 		if (userInput == accountNumbers[j]) 
@@ -330,6 +431,9 @@ void deposit() {
 			cout << "How much are you depositing:";
 			float depositAmount;
 			cin >> depositAmount;
+			stringstream check;
+			check >> depositAmount;
+			stopCheck(check.str());
 			ofstream cashFileOut;
 			accountBalanceFloat += depositAmount;
 			cashFileOut.open("temp.dat");
@@ -345,22 +449,11 @@ void deposit() {
 			}
 		}
 	}
-
-	//prompt for account number and make sure we have it
-	//take in the value from that accounts file
-	//add the deposit ammount to that number
-	//change the value in the file to reflect the addition
-	//close file
-
+	displayMenu();
 }
 
 void withdraw() {
-	cout << "Withdraw";
-	//prompt for account number and make sure we have it
-	//take in the value from that accounts file
-	//subtract the ammount to that number
-	//change the value in the file to reflect the change
-	//close file
+	cout << "Withdraw" << endl;
 	ifstream fin;
 	fin.open(OUTPUT_FILE);
 	string accountNumbers[MAX_ACCOUNT_NUM];
@@ -376,12 +469,11 @@ void withdraw() {
 		getline(fin, junk);
 		//cout << accountNumbers[i] << endl;
 		i++;
-
 	}
 	fin.close();
 	cout << "Enter the account number that you want to withdraw:";
 	cin >> userInput;
-
+	stopCheck(userInput);
 	for (int j = 0; j < i; j++)
 	{
 		if (userInput == accountNumbers[j])
@@ -396,9 +488,12 @@ void withdraw() {
 			float accountBalanceFloat;
 			accountBalanceFloat = stof(accountBalance);
 			//cout << accountBalanceFloat << endl;
-			cout << "How much are you depositing:";
+			cout << "How much are you withdrawing:";
 			float withdrawAmount;
 			cin >> withdrawAmount;
+			stringstream check;
+			check >> withdrawAmount;
+			stopCheck(check.str());
 			ofstream cashFileOut;
 			accountBalanceFloat -= withdrawAmount;
 			cashFileOut.open("temp.dat");
@@ -412,21 +507,60 @@ void withdraw() {
 			{
 				cout << "error deleting" << endl;
 			}
-
 		}
 	}
-
+	displayMenu();
 }
 
 void checkBalance() {
-	cout << "check balance";
-	//prompt for account number
-	//check that we have that account on file
-	//oppen that account file
+	cout << "check balance" << endl;
+	ifstream fin;
+	fin.open(OUTPUT_FILE);
+	string accountNumbers[MAX_ACCOUNT_NUM];
+	string junk;
+	int i = 0;
+	string userInput;
+	while (!fin.eof())
+	{
+		getline(fin, accountNumbers[i]);
+		getline(fin, junk);
+		getline(fin, junk);
+		getline(fin, junk);
+		getline(fin, junk);
+		//cout << accountNumbers[i] << endl;
+		i++;
+	}
+	fin.close();
+	cout << "Enter the account number that you want to check:";
+	cin >> userInput;
+	stopCheck(userInput);
+	cin.ignore();
+	string userInputCopy;
+	for (int j = 0; j < i; j++)
+	{
+		if (userInput == accountNumbers[j])
+		{
+			cout << "Account found" << endl;
+			userInputCopy = userInput;
+			userInput.append(".dat");
+			fin.open(userInput);
+			string accountBalance;
+			getline(fin, accountBalance);
+			cout << "Account " << userInputCopy << " has " << accountBalance << " in their account." << endl;
+		}
+	}
 
+	displayMenu();
 }
 
 void quit() {
 	cout << "quit";
+	exit(0);
 	//exit program
 }
+void stopCheck(string input) {
+	if (input == "quit") {
+		quit();
+	}
+}
+
